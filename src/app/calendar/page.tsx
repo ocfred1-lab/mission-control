@@ -22,7 +22,13 @@ export default function CalendarPage() {
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i))
   const monthDays = eachDayOfInterval({ start: startOfMonth(current), end: endOfMonth(current) })
 
-  const getTasksForDay = (day: Date) => scheduled.filter(t => t.scheduledDate && isSameDay(new Date(t.scheduledDate), day))
+  const getTasksForDay = (day: Date) => scheduled.filter(t => {
+    if (!t.scheduledDate) return false
+    // Compare YYYY-MM-DD strings to avoid timezone shifts
+    const taskDate = t.scheduledDate.slice(0, 10)
+    const dayDate = format(day, 'yyyy-MM-dd')
+    return taskDate === dayDate
+  })
 
   const btnStyle = (active: boolean) => ({
     padding: '6px 14px', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: 'pointer',
