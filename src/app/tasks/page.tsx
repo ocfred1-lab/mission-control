@@ -61,18 +61,29 @@ function NewTaskModal({ onClose, onSave }: { onClose: () => void; onSave: (t: Pa
 }
 
 function TaskCard({ task, onDragStart }: { task: Task; onDragStart: (e: React.DragEvent, id: string) => void }) {
+  const [expanded, setExpanded] = useState(false)
   return (
-    <div className="kanban-card" draggable onDragStart={e => onDragStart(e, task.id)}>
+    <div className="kanban-card" draggable onDragStart={e => onDragStart(e, task.id)}
+      onClick={e => { e.stopPropagation(); setExpanded(v => !v) }}
+      style={{ background: expanded ? '#16162a' : undefined, borderColor: expanded ? 'var(--border2)' : undefined }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
         <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', lineHeight: 1.4, flex: 1, marginRight: 8 }}>{task.title}</div>
-        <div style={{ width: 8, height: 8, borderRadius: '50%', background: priorityColors[task.priority] || '#475569', flexShrink: 0, marginTop: 4 }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+          <div style={{ width: 7, height: 7, borderRadius: '50%', background: priorityColors[task.priority] || '#475569' }} />
+          <span style={{ fontSize: 10, color: 'var(--text-muted)', transition: 'transform 0.15s', display: 'inline-block', transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>▾</span>
+        </div>
       </div>
-      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{task.description}</div>
+      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5, ...(expanded ? {} : { display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }) }}>{task.description}</div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 4, background: task.assignee === 'Fred' ? 'rgba(99,102,241,0.15)' : 'rgba(59,130,246,0.15)', color: task.assignee === 'Fred' ? '#a5b4fc' : '#93c5fd', border: `1px solid ${task.assignee === 'Fred' ? 'rgba(99,102,241,0.3)' : 'rgba(59,130,246,0.3)'}` }}>{task.assignee}</span>
         <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 4, background: `${categoryColors[task.category] || '#6366f1'}18`, color: categoryColors[task.category] || '#6366f1', border: `1px solid ${categoryColors[task.category] || '#6366f1'}30` }}>{task.category}</span>
         <span style={{ fontSize: 10, color: 'var(--text-muted)', marginLeft: 'auto' }}>{formatDistanceToNow(new Date(task.updatedAt), { addSuffix: true })}</span>
       </div>
+      {expanded && task.scheduledDate && (
+        <div style={{ marginTop: 8, paddingTop: 8, borderTop: '1px solid var(--border)', fontSize: 11, color: 'var(--text-muted)' }}>
+          📅 Scheduled: {new Date(task.scheduledDate).toLocaleDateString('en-CA')}
+        </div>
+      )}
     </div>
   )
 }

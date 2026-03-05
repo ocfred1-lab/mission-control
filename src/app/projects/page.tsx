@@ -54,6 +54,7 @@ function NewProjectModal({ onClose, onSave }: { onClose: () => void; onSave: (p:
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([])
   const [showModal, setShowModal] = useState(false)
+  const [expanded, setExpanded] = useState<string | null>(null)
 
   useEffect(() => { fetch('/api/projects').then(r => r.json()).then(setProjects) }, [])
 
@@ -77,16 +78,21 @@ export default function ProjectsPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
         {projects.map(p => {
           const sc = statusColors[p.status] || statusColors.Planning
+          const isExpanded = expanded === p.id
           return (
-            <div key={p.id} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: '20px', transition: 'border-color 0.15s' }}
+            <div key={p.id} onClick={() => setExpanded(isExpanded ? null : p.id)}
+              style={{ background: 'var(--surface)', border: `1px solid ${isExpanded ? 'var(--border2)' : 'var(--border)'}`, borderRadius: 12, padding: '20px', transition: 'all 0.2s', cursor: 'pointer', boxShadow: isExpanded ? '0 4px 24px rgba(0,0,0,0.4)' : 'none' }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border2)')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}>
+              onMouseLeave={e => { if (!isExpanded) e.currentTarget.style.borderColor = 'var(--border)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <span style={{ fontSize: 11, padding: '3px 9px', borderRadius: 4, background: sc.bg, color: sc.text, border: `1px solid ${sc.border}`, fontWeight: 600 }}>{p.status}</span>
-                <div style={{ width: 8, height: 8, borderRadius: '50%', background: priorityColors[p.priority], marginTop: 4 }} title={`${p.priority} priority`} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: priorityColors[p.priority] }} title={`${p.priority} priority`} />
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)', transition: 'transform 0.2s', display: 'inline-block', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>▾</span>
+                </div>
               </div>
               <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)', margin: '0 0 8px', letterSpacing: '-0.01em' }}>{p.name}</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '0 0 16px', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.description}</p>
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '0 0 16px', lineHeight: 1.5, ...(isExpanded ? {} : { display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }) }}>{p.description}</p>
               <div style={{ marginBottom: 14 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                   <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Progress</span>
