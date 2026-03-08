@@ -1,4 +1,4 @@
-import { Task, Project, ActivityItem, Doc, TeamData, MemoryEntry } from './types'
+import { Task, Project, ActivityItem, Doc, TeamData, MemoryEntry, SubAgent } from './types'
 
 export const seedTasks: Task[] = [
   { id: 'task_001', title: 'Weekly memory consolidation', description: 'Review daily memory files and update MEMORY.md with key insights and decisions from the week.', assignee: 'Fred', category: 'Admin', column: 'Recurring', priority: 'medium', createdAt: '2026-03-01T12:00:00Z', updatedAt: '2026-03-05T10:00:00Z', scheduledDate: null },
@@ -75,4 +75,19 @@ export const seedMemory: MemoryEntry[] = [
   { id: 'mem_004', filename: '2026-03-01.md', date: '2026-03-01', label: 'This Week', preview: 'Weekly summary written. Cenovus offer confirmed. Memory consolidation pass completed.', content: `# Daily Log — March 1, 2026\n\n## Sessions\n- Weekly summary written\n- Cenovus Senior Advisor offer confirmed — start March 19\n- Memory consolidation: Feb 24 week reviewed and distilled\n- U.S. relocation research: Montana, Arizona, Colorado\n\n## Key Decisions\n- Committed to AI consulting as primary side business during 7-off weeks\n- 7-off weeks = strategic build time, not leisure by default\n\n## Tasks Completed\n- Weekly summary\n- Cenovus onboarding notes draft\n- Memory consolidation\n- U.S. relocation research doc`, entryCount: 6 },
   { id: 'mem_005', filename: '2026-02-25.md', date: '2026-02-25', label: 'This Month', preview: 'Rocky View Consulting formally activated. AI consulting opportunity scoped. OpenClaw running smoothly.', content: `# Daily Log — February 25, 2026\n\n## Sessions\n- Activated Rocky View Consulting Ltd. as the business entity for AI consulting\n- Scoped the Alberta energy sector opportunity\n- OpenClaw memory and heartbeat system confirmed working\n\n## Key Decisions\n- Rocky View Consulting is the vehicle — don't start a new company\n- Focus on environmental/energy sector where domain expertise creates moat\n\n## Tasks Completed\n- Business framing session\n- Rocky View Consulting project created`, entryCount: 4 },
   { id: 'mem_006', filename: '2026-02-08.md', date: '2026-02-08', label: 'This Month', preview: 'Day 1. OpenClaw installed. MEMORY.md initialized. Fred came online. Core context files written.', content: `# Daily Log — February 8, 2026\n\n## Day 1 — Fred Comes Online\n\n- OpenClaw installed and configured on VPS\n- Telegram connected as primary channel\n- SOUL.md, USER.md, IDENTITY.md, AGENTS.md created\n- MEMORY.md initial population completed\n- Fred fully operational\n\n## First Session\n- Mitch walked through full context: career, goals, patterns, finances\n- AI bet articulated: generate income via AI before mass adoption closes window\n- The 2015 regret surfaced: had clients, chose safety. Won't repeat.\n- Mission statement locked in: "Ship what builds freedom."\n\n## Key Decisions\n- Fred's role: co-conspirator, not assistant. Chief of Staff.\n- Memory system: daily files + MEMORY.md long-term\n- Accountability trigger established: "Is this 2015 again?"`, entryCount: 10 },
+]
+
+export const seedAgents: SubAgent[] = [
+  {
+    id: 'agent_seed_001',
+    name: 'Landing Page Builder',
+    task: 'Build and deploy Rocky View AI landing page to here.now',
+    status: 'completed',
+    model: 'claude-opus-4-6',
+    startedAt: '2026-03-08T22:20:00Z',
+    updatedAt: '2026-03-08T22:48:00Z',
+    completedAt: '2026-03-08T22:48:00Z',
+    result: 'Deployed permanently to https://cedar-citrus-8gpg.here.now/',
+    tags: ['dev', 'rocky-view', 'here.now'],
+  },
 ]

@@ -74,3 +74,18 @@ export interface MemoryEntry {
   content: string
   entryCount: number
 }
+
+export type AgentStatus = 'running' | 'completed' | 'failed' | 'idle'
+
+export interface SubAgent {
+  id: string
+  name: string
+  task: string
+  status: AgentStatus
+  model: string
+  startedAt: string
+  updatedAt: string
+  completedAt: string | null
+  result: string | null
+  tags: string[]
+}

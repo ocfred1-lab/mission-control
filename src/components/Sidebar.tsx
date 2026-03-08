@@ -7,6 +7,7 @@ const nav = [
   { href: '/tasks', label: 'Tasks', icon: '✦' },
   { href: '/calendar', label: 'Calendar', icon: '◈' },
   { href: '/projects', label: 'Projects', icon: '⬡' },
+  { href: '/agents', label: 'Agents', icon: '🤖' },
   { href: '/memory', label: 'Memory', icon: '◎' },
   { href: '/docs', label: 'Docs', icon: '▣' },
   { href: '/team', label: 'Team', icon: '◉' },
