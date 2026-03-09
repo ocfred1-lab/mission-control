@@ -89,3 +89,12 @@ export interface SubAgent {
   result: string | null
   tags: string[]
 }
+
+export interface Brief {
+  id: string
+  title: string
+  source: string
+  content: string
+  tags: string[]
+  timestamp: string
+}
