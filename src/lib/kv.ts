@@ -1,7 +1,7 @@
 // KV abstraction layer - falls back to in-memory store if @vercel/kv not configured
 // This allows local development without KV credentials
 
-import { Task, Project, ActivityItem, Doc, TeamData, MemoryEntry, SubAgent } from './types'
+import { Task, Project, ActivityItem, Doc, TeamData, MemoryEntry, SubAgent, Brief } from './types'
 import { seedTasks, seedProjects, seedActivity, seedDocs, seedTeam, seedMemory, seedAgents } from './seed-data'
 
 // In-memory fallback store for local development
@@ -84,6 +84,14 @@ export async function getAgents(): Promise<SubAgent[]> {
 }
 export async function setAgents(agents: SubAgent[]): Promise<void> {
   return kvSet('agents', agents)
+}
+
+export async function getBriefs(): Promise<Brief[]> {
+  const val = await kvGet<Brief[]>('briefs')
+  return val ?? []
+}
+export async function setBriefs(briefs: Brief[]): Promise<void> {
+  return kvSet('briefs', briefs)
 }
 
 export async function seedAll(): Promise<void> {
